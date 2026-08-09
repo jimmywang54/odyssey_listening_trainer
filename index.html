@@ -2,6 +2,15 @@
 <title>Odyssey Movie Prep</title><meta name="theme-color" content="#111827"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/icon-192.png">
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f4f5f7;color:#171923}.top{position:sticky;top:0;z-index:20;background:rgba(244,245,247,.94);backdrop-filter:blur(12px);padding:max(12px,env(safe-area-inset-top)) 16px 10px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ddd}.top button{border:0;background:white;border-radius:12px;padding:9px 12px;font-size:15px}.brand{font-weight:800}.wrap{max-width:760px;margin:auto;padding:16px 16px 100px}.screen{display:none}.screen.active{display:block}.hero{background:#111827;color:white;border-radius:24px;padding:24px;margin-bottom:16px}.hero h1{margin:4px 0 8px;font-size:30px}.muted{opacity:.7}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.tile,.card{background:white;border-radius:20px;padding:18px;box-shadow:0 2px 10px #0000000b}.tile{min-height:170px;cursor:pointer}.tile .emoji{font-size:30px}.tile h2{font-size:19px;margin:12px 0 6px}.tile p,.sub{color:#667085;line-height:1.45}.section{font-size:12px;letter-spacing:.12em;font-weight:800;color:#667085;margin:22px 2px 9px}.btn{border:0;border-radius:14px;padding:13px 16px;font-weight:700;font-size:15px;background:#111827;color:white}.btn.alt{background:#eef0f3;color:#111827}.row{display:flex;gap:8px;flex-wrap:wrap}.card{margin-bottom:12px}.card h3{margin:3px 0 8px}.pill{display:inline-block;background:#eef0f3;border-radius:999px;padding:6px 10px;font-size:12px;margin:3px}.flash{min-height:290px;display:flex;align-items:center;justify-content:center;text-align:center;cursor:pointer}.word{font-size:34px;font-weight:800}.meaning{font-size:19px;line-height:1.5}.answer{display:none}.answer.show{display:block}.listen{font-size:54px;text-align:center;padding:28px;cursor:pointer}.progress{height:8px;background:#e5e7eb;border-radius:9px;overflow:hidden}.progress i{display:block;height:100%;background:#111827}.level{display:flex;justify-content:space-between;align-items:center}.transcript{display:none;line-height:1.75;background:#f8f9fb;padding:15px;border-radius:14px;margin-top:12px}.choice{width:100%;text-align:left;margin:5px 0;background:#f3f4f6;border:0;padding:13px;border-radius:12px}.today{font-size:14px;color:#d1d5db}.lang{display:flex;gap:7px;margin-bottom:12px}.langSwitch{border:0;border-radius:10px;padding:9px 12px;font-weight:700;background:#eef0f3;color:#111827}.langSwitch.selected{background:#111827;color:#fff}.player{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0}.timeline{border-left:2px solid #d0d5dd;padding-left:15px}.timeline .card{position:relative}.timeline .card:before{content:"";width:10px;height:10px;background:#111827;border-radius:50%;position:absolute;left:-21px;top:23px}@media(max-width:560px){.grid{grid-template-columns:1fr}.tile{min-height:135px}.wrap{padding:12px 12px 90px}}
+
+.cardLangLabel{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;opacity:.58;margin-top:14px;margin-bottom:4px}
+#reviewHub .card{padding:22px;margin:14px 0}
+#reviewHub .card h2{font-size:22px;margin:0 0 8px}
+#reviewHub .card .btn{width:100%;margin-top:12px}
+.reviewHomeCard{grid-column:1/-1;width:100%;min-height:150px!important;padding:24px!important;border:1px solid #fff;border-radius:12px;background:#eee;color:#171923;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center}
+.reviewHomeCard span{display:block;font-size:34px!important;line-height:1}
+.reviewHomeCard b{display:block;font-size:21px!important;line-height:1.25}
+.reviewHomeCard small{display:block;color:#667085;font-size:14px;line-height:1.45}
 </style></head><body><div class="top"><button id="backBtn" onclick="goBack()">← Back</button><div class="brand">ODYSSEY</div><button onclick="home()">⌂ Home</button></div><main class="wrap">
 <section id="home" class="screen active"><div class="hero"><div class="muted">THE ODYSSEY · MOVIE PREP</div><h1>Ready for movie night?</h1><div class="today" id="countdown"></div></div>
 <div class="grid">
@@ -9,7 +18,7 @@
 <div class="tile" onclick="show('vocab')"><div class="emoji">🗂️</div><h2>Vocabulary</h2><p>Study cards, pronunciation, sound recognition and weak words.</p></div>
 <div class="tile" onclick="show('listening')"><div class="emoji">🎧</div><h2>Listening Training</h2><p>Easy → natural → dialogue → story → Movie Mode.</p></div>
 <div class="tile" onclick="show('challenge');renderChallenge()"><div class="emoji">🎬</div><h2>20-Day Challenge</h2><p>A daily mix that gradually becomes listening-heavy.</p></div>
-</div></section>
+<button class="homecard reviewHomeCard" onclick="openReviewHub()"><span>🧠</span><b>Review & Test</b><small>Vocabulary · Listening · Mixed Test</small></button></div></section>
 
 <section id="story" class="screen"><h1>📖 Story Guide</h1><div class="lang"><button id="zhTab" class="langSwitch selected" onclick="setLang('zh')">繁中</button><button id="enTab" class="langSwitch" onclick="setLang('en')">English</button></div>
 <div class="card"><div class="section">BIG PICTURE</div><p id="overview" style="line-height:1.75"></p></div>
@@ -27,7 +36,8 @@
 <div class="card"><div class="level"><div><h3>⭐ Review List</h3><p class="sub" id="reviewSummary">Words saved for extra practice.</p></div><button class="btn" onclick="openReview()">Review</button></div></div>
 <div class="section">PROGRESS</div><div class="card" id="vstats"></div></section>
 
-<section id="cards" class="screen"><div class="section" id="cardCount"></div><div class="progress"><i id="cardProg"></i></div><div class="card flash" onclick="flipCard()"><div><div class="word" id="cardWord"></div><div class="answer" id="cardAnswer"><p class="meaning" id="cardZh"></p><p class="sub" id="cardMeaning"></p><p class="sub" id="cardExample"></p></div><p class="sub" id="flipHint">Tap to flip</p></div></div><div class="row"><button class="btn alt" onclick="speakCard()">🔊 Hear it</button><button class="btn alt" onclick="saveForReview()">⭐ Save for Review</button><button class="btn" onclick="markGotIt()">✓ Got it</button></div><div class="row" style="margin-top:10px"><button class="btn alt" onclick="previousCard()">← Previous</button><button class="btn alt" onclick="browseNextCard()">Next →</button></div><div id="courseCardNext"></div></section>
+<section id="cards" class="screen"><div class="section" id="cardCount"></div><div class="progress"><i id="cardProg"></i></div><div class="card flash" onclick="flipCard()"><div><div class="word" id="cardWord"></div><div class="answer" id="cardAnswer"><div class="cardLangLabel">繁中</div><p class="meaning" id="cardZh"></p><p class="sub" id="cardZhDetail"></p>
+<div class="cardLangLabel">English</div><p class="sub" id="cardMeaning"></p><p class="sub" id="cardExample"></p></div><p class="sub" id="flipHint">Tap to flip</p></div></div><div class="row"><button class="btn alt" onclick="speakCard()">🔊 Hear it</button><button class="btn alt" onclick="saveForReview()">⭐ Save for Review</button><button class="btn" onclick="markGotIt()">✓ Got it</button></div><div class="row" style="margin-top:10px"><button class="btn alt" onclick="previousCard()">← Previous</button><button class="btn alt" onclick="browseNextCard()">Next →</button></div><div id="courseCardNext"></div></section>
 
 <section id="review" class="screen"><h1>⭐ Review List</h1><p class="sub">These are the words you saved or missed in Sound Practice. Remove them when they feel automatic.</p><div id="reviewList"></div></section>
 <section id="quiz" class="screen"><div class="section">SOUND → WORD</div><div class="card"><div class="listen" onclick="speakQuiz()">🔊</div><p class="sub" style="text-align:center">Listen. Which word did you hear?</p><div id="quizChoices"></div><div id="quizFeedback"></div><button class="btn" id="quizNext" style="display:none" onclick="nextQuiz()">Next</button></div></section>
@@ -41,16 +51,21 @@
 <div class="row"><button class="btn alt" onclick="setSpeed(.88)">0.88×</button><button class="btn alt" onclick="setSpeed(1)">1×</button><button class="btn alt" onclick="setSpeed(1.08)">1.08×</button></div>
 <div class="section">COMPREHENSION</div><p id="sceneQ"></p><div id="sceneChoices"></div><div id="sceneFeedback"></div>
 <button class="btn alt" onclick="toggleTranscript()">Transcript</button><div class="transcript" id="transcript"></div>
-<div class="row" style="margin-top:12px"><button class="btn" onclick="nextScene()">Next scene</button></div></div><div id="courseListenNext"></div></section>
+<div class="row" style="margin-top:12px"><button class="btn" onclick="nextScene()">Next scene</button></div></div><button id="listenReviewBtn" class="btn alt" onclick="toggleListeningReview()">🔖 Save for Review</button><div id="courseListenNext"></div></section>
 
-<section id="challenge" class="screen"><h1>🎬 20-Day Challenge</h1>
+<section id="reviewHub" class="screen"><h1>🧠 Review & Test</h1>
+<p class="sub">Your saved vocabulary and listening practice.</p>
+<div class="card"><h2>🃏 Vocabulary Review</h2><p class="sub" id="rvCount"></p><button class="btn" onclick="startReview()">Study Saved Words</button></div>
+<div class="card"><h2>🎧 Listening Review</h2><p class="sub" id="rlCount"></p><button class="btn" onclick="openListeningReview()">Practice Saved Listening</button></div>
+<div class="card"><h2>🧪 Mixed Test</h2><p class="sub">A 10-question test drawn from your saved review items.</p><button class="btn" onclick="startMixedTest()">Start Mixed Test</button></div>
+<div id="reviewTestArea"></div></section><section id="challenge" class="screen"><h1>🎬 20-Day Challenge</h1>
 <p class="sub">A guided course: Story Prep → Vocabulary → Listening → Movie Mode. All days are unlocked.</p>
 <div id="courseOverall" class="card"></div><div id="todayChallenge"></div><div class="section">ALL 20 DAYS</div><div id="days"></div></section>
 <section id="courseDay" class="screen"><div id="courseDayHead"></div><div id="courseSteps"></div></section>
 </main><script src="data.js"></script><script>
 let historyStack=[],lang='zh',cardI=0,cardSet=[],quizWord=null,sceneSet=[],sceneI=0,speedOverride=null,selectedVocabLevel='Essential Odyssey';
 let activeCourseDay=null,activeCourseStep=null,activeCourseFlow=false;
-let state=JSON.parse(localStorage.getItem('odyState')||'{"known":[],"weak":[],"doneListen":[]}');if(!state.review)state.review=[...(state.weak||[])];if(!state.course)state.course={};
+let state=JSON.parse(localStorage.getItem('odyState')||'{"known":[],"weak":[],"doneListen":[]}');if(!state.review)state.review=[...(state.weak||[])];if(!state.course)state.course={};if(!state.listenReview)state.listenReview=[];
 function save(){localStorage.setItem('odyState',JSON.stringify(state));renderStats()}
 function stopAudio(){speechSynthesis.cancel();setAudioUi('stopped')}function show(id,push=true){stopAudio();let cur=document.querySelector('.screen.active');if(push&&cur&&cur.id!==id)historyStack.push(cur.id);document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
 function home(){stopAudio();historyStack=[];show('home',false)}function goBack(){stopAudio();if(!historyStack.length)return home();show(historyStack.pop(),false)}
@@ -70,7 +85,18 @@ function shuffled(a){return [...a].sort(()=>Math.random()-.5)}
 function selectVocabLevel(l){selectedVocabLevel=l;selectedVocabLabel.textContent='Selected: '+l}
 function vocabPool(){return DATA.vocab.filter(v=>v.level===selectedVocabLevel)}
 function startCards(){cardSet=shuffled(vocabPool());cardI=0;show('cards');renderCard()}
-function renderCard(){let x=cardSet[cardI];cardWord.textContent=x.w;cardZh.textContent=x.zh||'（繁中翻譯待補）';cardMeaning.textContent=x.d;cardExample.textContent=x.e;cardAnswer.classList.remove('show');flipHint.textContent='Tap to flip';cardCount.textContent=`STUDY CARDS · ${cardI+1}/${cardSet.length}`;cardProg.style.width=(cardI/cardSet.length*100)+'%'}
+function renderCard(){
+  let x=cardSet[cardI];
+  cardWord.textContent=x.w;
+  cardZh.textContent=x.zh||'';
+  cardZhDetail.textContent=x.zh_detail||x.zh||'';
+  cardMeaning.textContent=x.d;
+  cardExample.textContent=x.e;
+  cardAnswer.classList.remove('show');
+  flipHint.textContent='Tap to flip';
+  cardCount.textContent=`STUDY CARDS · ${cardI+1}/${cardSet.length}`;
+  cardProg.style.width=(cardI/cardSet.length*100)+'%';
+}
 function flipCard(){cardAnswer.classList.toggle('show');flipHint.textContent=cardAnswer.classList.contains('show')?'':'Tap to flip'}
 function previousCard(){cardI=(cardI-1+cardSet.length)%cardSet.length;renderCard()}
 function browseNextCard(){cardI=(cardI+1)%cardSet.length;renderCard()}
@@ -79,15 +105,36 @@ function saveForReview(){let w=cardSet[cardI].w;if(!state.review.includes(w))sta
 function markGotIt(){let w=cardSet[cardI].w;if(!state.known.includes(w))state.known.push(w);state.review=state.review.filter(x=>x!==w);state.weak=state.weak.filter(x=>x!==w);save();nextCard()}
 function nextCard(){cardI=(cardI+1)%cardSet.length;renderCard()}
 function openReview(){show('review');renderReview()}
-function renderReview(){let words=state.review.map(w=>DATA.vocab.find(v=>v.w===w)).filter(Boolean);reviewList.innerHTML=words.length?words.map(v=>`<div class="card"><h3>${v.w}</h3><p class="meaning">${v.zh||'（繁中翻譯待補）'}</p><p class="sub">${v.d}</p><div class="row"><button class="btn alt" onclick="speakText('${v.w.replaceAll("'","\'")}',.92)">🔊 Hear it</button><button class="btn" onclick="removeReview('${v.w.replaceAll("'","\'")}')">✓ Mark as learned</button></div></div>`).join(''):'<div class="card"><b>Your Review List is empty 🎉</b><p class="sub">Save a word from Study Cards or miss one in Sound Practice and it will appear here.</p></div>'}
+function renderReview(){
+  let words=state.review.map(w=>DATA.vocab.find(v=>v.w===w)).filter(Boolean);
+  reviewList.innerHTML=words.length?words.map(v=>`<div class="card"><h3>${v.w}</h3><p class="meaning">${v.zh||''}</p><p class="sub">${v.zh_detail||v.zh||''}</p><p class="sub"><b>English:</b> ${v.d}</p><div class="row"><button class="btn alt" onclick="speakText('${v.w.replaceAll("'","\\'")}',.92)">🔊 Hear it</button><button class="btn" onclick="removeReview('${v.w.replaceAll("'","\\'")}')">✓ Mark as learned</button></div></div>`).join(''):'<div class="card"><b>Your Review List is empty 🎉</b><p class="sub">Save a word from Study Cards or miss one in Sound Practice and it will appear here.</p></div>'
+}
 function removeReview(w){state.review=state.review.filter(x=>x!==w);if(!state.known.includes(w))state.known.push(w);save();renderReview()}
 function startSoundQuiz(){show('quiz');newQuiz()}
 function newQuiz(){let pool=vocabPool();quizWord=pool[Math.floor(Math.random()*pool.length)];let wrong=shuffled(pool.filter(x=>x.w!==quizWord.w)).slice(0,3);let opts=shuffled([quizWord,...wrong]);quizChoices.innerHTML=opts.map(x=>`<button class="choice" onclick="answerQuiz(this,'${x.w.replaceAll("'","\\'")}')">${x.w}</button>`).join('');quizFeedback.innerHTML='';quizNext.style.display='none';setTimeout(speakQuiz,250)}
 function speakQuiz(){speakText(quizWord.w,.92)}function answerQuiz(b,w){document.querySelectorAll('#quizChoices button').forEach(x=>x.disabled=true);let ok=w===quizWord.w;quizFeedback.innerHTML=`<div class="card"><b>${ok?'✓ Correct':'Not quite — '+quizWord.w}</b><p>${quizWord.d}</p></div>`;if(!ok){if(!state.weak.includes(quizWord.w))state.weak.push(quizWord.w);if(!state.review.includes(quizWord.w))state.review.push(quizWord.w)}if(ok&&!state.known.includes(quizWord.w))state.known.push(quizWord.w);save();quizNext.style.display='block'}function nextQuiz(){newQuiz()}
 function renderStats(){if(window.vstats)vstats.innerHTML=`<b>${state.known.length}</b> recognized · <b>${state.review.length}</b> saved for review · <b>${state.doneListen.length}</b> listening scenes completed`;if(window.reviewSummary)reviewSummary.textContent=`${state.review.length} word${state.review.length===1?'':'s'} saved for extra practice.`}
-function renderLevels(){let names=['Easy','Natural','Dialogue','Story','Movie Mode'];levels.innerHTML=names.map((n,i)=>{let set=DATA.listening.filter(x=>x.level===i+1),done=set.filter(x=>state.doneListen.includes(x.title)).length;let status=done===set.length&&set.length?'✓ Level Complete':done?'In Progress':'Not Started';return `<div class="card level"><div><h3>Level ${i+1} — ${n}</h3><p class="sub">${done}/${set.length} completed</p><span class="pill">${status}</span></div><button class="btn" onclick="openLevel(${i+1})">Practice</button></div>`}).join('')}
-function openLevel(l){sceneSet=DATA.listening.filter(x=>x.level===l);sceneI=0;speedOverride=null;show('listenScene');renderScene();setTimeout(playScene,250)}
-function renderScene(){setAudioUi('stopped');let x=sceneSet[sceneI];sceneLevel.textContent=`LEVEL ${x.level} · ${sceneI+1}/${sceneSet.length}`;sceneTitle.textContent=x.title;let dialogue=/['“\"]/.test(x.text);sceneTitle.innerHTML=x.title+` <span class="pill">${dialogue?'Dialogue + narration':'Narration'}</span>`;sceneQ.textContent=x.q;sceneChoices.innerHTML=x.choices.map((c,j)=>`<button class="choice" onclick="answerScene(${j})">${c}</button>`).join('');sceneFeedback.innerHTML='';transcript.textContent=x.text;transcript.style.display='none';sceneProg.style.width=(sceneI/sceneSet.length*100)+'%'}
+function renderLevels(){let names=['Foundation','Clear Natural','Dialogue & Meaning','Fast Context','Movie Readiness'];levels.innerHTML=names.map((n,i)=>{let set=DATA.listeningBank120.filter(x=>x.level===i+1),done=set.filter(x=>state.doneListen.includes(x.title)).length;return `<div class="card level"><div><h3>Level ${i+1} — ${n}</h3><p class="sub">${done}/${set.length} completed · ${set.length} different exercises</p></div><button class="btn" onclick="openLevel(${i+1})">Practice</button></div>`}).join('')}
+function openLevel(l){sceneSet=DATA.listeningBank120.filter(x=>x.level===l);sceneI=0;speedOverride=null;show('listenScene');renderScene();setTimeout(playScene,250)}
+function renderScene(){
+  setAudioUi('stopped');
+  let x=sceneSet[sceneI];
+  let choices=x.choices||x.opts||[];
+  let answer=x.answer||x.a||'';
+  let correct=(typeof x.correct==='number')?x.correct:choices.indexOf(answer);
+  x._choices=choices;x._answer=answer;x._correct=correct;
+  sceneLevel.textContent=`LEVEL ${x.level} · ${x.activity||'Listening'} · ${sceneI+1}/${sceneSet.length}${state.doneListen.includes(x.title)?' · ✓ COMPLETED':''}`;
+  sceneTitle.textContent=x.title;
+  let dialogue=/['“\"]/.test(x.text);
+  sceneTitle.innerHTML=x.title+` <span class="pill">${dialogue?'Dialogue + narration':(x.activity||'Narration')}</span>`;
+  sceneQ.textContent=x.q||'What did you understand?';
+  sceneChoices.innerHTML=choices.map((c,j)=>`<button class="choice" onclick="answerScene(${j})">${c}</button>`).join('');
+  sceneFeedback.innerHTML='';
+  transcript.textContent=x.text;
+  transcript.style.display='none';
+  sceneProg.style.width=(sceneI/sceneSet.length*100)+'%';
+  updateListenReviewButton();
+}
 let audioUiState='stopped';
 function setAudioUi(state){
   audioUiState=state;
@@ -103,20 +150,36 @@ function playScene(){stopAudio();setAudioUi('playing');let x=sceneSet[sceneI];le
 function pauseAudio(){if(speechSynthesis.paused){speechSynthesis.resume();setAudioUi('playing')}else if(speechSynthesis.speaking){speechSynthesis.pause();setAudioUi('paused')}}
 function replayScene(){speechSynthesis.cancel();setAudioUi('stopped');setTimeout(playScene,80)}
 function setSpeed(x){speedOverride=x;replayScene()}
-function answerScene(j){document.querySelectorAll('#sceneChoices button').forEach(b=>b.disabled=true);let x=sceneSet[sceneI],ok=j===x.correct;sceneFeedback.innerHTML=`<div class="card"><b>${ok?'✓ Correct':'Not quite'}</b><p>${x.answer}</p></div>`}
+function answerScene(j){
+  document.querySelectorAll('#sceneChoices button').forEach(b=>b.disabled=true);
+  let x=sceneSet[sceneI],ok=j===x._correct;
+  sceneFeedback.innerHTML=`<div class="card"><b>${ok?'✓ Correct':'Not quite'}</b><p>Correct answer: ${x._answer}</p></div>`;
+}
 function toggleTranscript(){transcript.style.display=transcript.style.display==='block'?'none':'block'}
 function nextScene(){stopAudio();let x=sceneSet[sceneI];if(!state.doneListen.includes(x.title))state.doneListen.push(x.title);if(activeCourseFlow&&activeCourseDay&&activeCourseStep){state.course[courseKey(activeCourseDay,activeCourseStep)]=true}save();sceneI=(sceneI+1)%sceneSet.length;speedOverride=null;renderScene();renderCourseCTA()}
 function dayNum(){let start=new Date(2026,7,9),now=new Date();return Math.max(1,Math.min(20,Math.floor((now-start)/86400000)+1))}
 function plan(d){let level=d<=4?1:d<=8?2:d<=12?3:d<=17?4:5;let mins=15+Math.floor(d*.7);let listen=Math.min(85,45+d*2);return {level,mins,listen,newWords:d<=5?10:d<=12?7:d<=18?4:0}}
+function allListeningItems(){return [...DATA.listening,...DATA.listeningBank120]}
+function currentListening(){return sceneSet&&sceneSet[sceneI]}
+function toggleListeningReview(){let x=currentListening();if(!x)return;let i=state.listenReview.indexOf(x.title);if(i>=0)state.listenReview.splice(i,1);else state.listenReview.push(x.title);save();updateListenReviewButton()}
+function updateListenReviewButton(){if(!window.listenReviewBtn)return;let x=currentListening(),on=x&&state.listenReview.includes(x.title);listenReviewBtn.textContent=on?'✓ Saved for Review':'🔖 Save for Review'}
+function openReviewHub(){show('reviewHub');rvCount.textContent=`${state.review.length} saved word${state.review.length===1?'':'s'}`;rlCount.textContent=`${state.listenReview.length} saved listening exercise${state.listenReview.length===1?'':'s'}`;reviewTestArea.innerHTML=''}
+function openListeningReview(){let p=allListeningItems().filter(x=>state.listenReview.includes(x.title));if(!p.length){reviewTestArea.innerHTML='<div class="card">No listening exercises saved yet.</div>';return}sceneSet=p;sceneI=0;activeCourseFlow=false;show('listenScene');renderScene()}
+function startMixedTest(){let vp=DATA.vocab.filter(v=>state.review.includes(v.w)),lp=allListeningItems().filter(x=>state.listenReview.includes(x.title)),q=[];vp.forEach(v=>q.push({kind:'Vocabulary',q:`What does “${v.w}” mean?`,a:v.zh,opts:[v.zh,...DATA.vocab.filter(z=>z.w!==v.w).slice(0,2).map(z=>z.zh)]}));lp.forEach(x=>q.push({kind:'Listening',q:x.q,a:x.a,opts:x.opts,audio:x.text}));q=q.sort(()=>Math.random()-.5).slice(0,10);if(!q.length){reviewTestArea.innerHTML='<div class="card">Save some vocabulary or listening first.</div>';return}window.mixedQs=q;window.mixedI=0;window.mixedScore=0;renderMixedQ()}
+function renderMixedQ(){let q=mixedQs[mixedI];if(!q){reviewTestArea.innerHTML=`<div class="hero"><h2>${mixedScore}/${mixedQs.length}</h2><p>Test complete. Review items stay saved until you remove them.</p></div>`;return}let o=[...q.opts].sort(()=>Math.random()-.5);reviewTestArea.innerHTML=`<div class="card"><span class="pill">${q.kind}</span><h3>${mixedI+1}/${mixedQs.length} · ${q.q}</h3>${q.audio?`<button class="btn alt" onclick="speakText(${JSON.stringify(q.audio)},.96)">▶ Play Audio</button>`:''}<div class="choices">${o.map(a=>`<button onclick="answerMixed(${JSON.stringify(a)})">${a}</button>`).join('')}</div></div>`}
+function answerMixed(a){let q=mixedQs[mixedI];if(a===q.a)mixedScore++;mixedI++;renderMixedQ()}
+
 function courseKey(day,step){return `d${day}_${step}`}
+function courseSteps(day){return DATA.course20[day-1].steps}
 function isCourseDone(day,step){return !!state.course[courseKey(day,step)]}
-function courseProgress(day){let s=['story','vocab','listen','movie'];let n=s.filter(x=>isCourseDone(day,x)).length;return {n,total:4,done:n===4}}
-function renderChallenge(){let d=dayNum(),done=DATA.course20.filter(c=>courseProgress(c.day).done).length;courseOverall.innerHTML=`<b>${done}/20 days completed</b><p class="sub">Each day has 4 guided steps.</p>`;let c=DATA.course20[d-1],p=courseProgress(d);todayChallenge.innerHTML=`<div class="hero"><div>SUGGESTED TODAY · DAY ${d}</div><h2>${c.title}</h2><p>${c.desc}</p><p class="today">${p.n}/4 completed</p><button class="btn" onclick="openCourseDay(${d})">Open Day ${d}</button></div>`;days.innerHTML=DATA.course20.map(c=>{let p=courseProgress(c.day);return `<div class="card" style="cursor:pointer" onclick="openCourseDay(${c.day})"><b>Day ${c.day} · ${c.title}</b><p class="sub">${c.desc}</p><span class="pill">${p.done?'✓ Complete':p.n?`${p.n}/4 · In Progress`:'Not Started'}</span></div>`}).join('')}
+function courseProgress(day){let s=courseSteps(day),n=s.filter(x=>isCourseDone(day,x)).length;return {n,total:s.length,done:n===s.length}}
+function renderChallenge(){let d=dayNum(),done=DATA.course20.filter(c=>courseProgress(c.day).done).length;courseOverall.innerHTML=`<b>${done}/20 days completed</b><p class="sub">Each day: Story Prep → Vocabulary → 3 different Listening activities.</p>`;let c=DATA.course20[d-1],p=courseProgress(d);todayChallenge.innerHTML=`<div class="hero"><div>SUGGESTED TODAY · DAY ${d}</div><h2>${c.title}</h2><p>${c.desc}</p><p class="today">${p.n}/${p.total} completed</p><button class="btn" onclick="openCourseDay(${d})">Open Day ${d}</button></div>`;days.innerHTML=DATA.course20.map(c=>{let p=courseProgress(c.day);return `<div class="card" style="cursor:pointer" onclick="openCourseDay(${c.day})"><b>Day ${c.day} · ${c.title}</b><p class="sub">📖 Story Prep · 🃏 Vocabulary · 🎧 ${c.listenLabels.join(' · 🎧 ')}</p><span class="pill">${p.done?'✓ Complete':p.n?`${p.n}/${p.total} · In Progress`:'Not Started'}</span></div>`}).join('')}
 function openCourseDay(day){activeCourseFlow=false;activeCourseDay=day;activeCourseStep=null;show('courseDay');renderCourseDay(day)}
-function renderCourseDay(day){let c=DATA.course20[day-1],p=courseProgress(day);courseDayHead.innerHTML=`<div class="hero"><div>DAY ${day} OF 20</div><h2>${c.title}</h2><p>${c.desc}</p><p>${p.done?'✓ Day Complete':`${p.n}/4 steps completed`}</p></div>`;let steps=[['story','📖 Story Prep','Read the story context.'],['vocab','🃏 Vocabulary','Study 12 words for today.'],['listen','👂 Listening',`Level ${c.level} comprehension practice.`],['movie','🎬 Movie Mode','A faster final listening pass.']];courseSteps.innerHTML=steps.map(([k,t,d])=>`<div class="card"><h3>${isCourseDone(day,k)?'✓ ':''}${t}</h3><p class="sub">${d}</p><button class="btn" onclick="startCourseStep(${day},'${k}')">${isCourseDone(day,k)?'Review':'Start'}</button></div>`).join('')}
-function startCourseStep(day,step){activeCourseDay=day;activeCourseStep=step;activeCourseFlow=true;let c=DATA.course20[day-1];if(step==='story'){show('story');renderStory();renderCourseCTA();return}if(step==='vocab'){cardSet=c.words.map(w=>DATA.vocab.find(v=>v.w===w)).filter(Boolean);cardI=0;show('cards');renderCard();renderCourseCTA();return}sceneSet=DATA.listening.filter(x=>x.level===c.level);sceneI=(day-1)%Math.max(sceneSet.length,1);speedOverride=step==='movie'?1.04:null;show('listenScene');renderScene();renderCourseCTA();setTimeout(playScene,250)}
-function renderCourseCTA(){if(window.courseStoryNext)courseStoryNext.innerHTML='';if(window.courseCardNext)courseCardNext.innerHTML='';if(window.courseListenNext)courseListenNext.innerHTML='';if(!activeCourseFlow||!activeCourseDay)return;let d=activeCourseDay,s=activeCourseStep;if(s==='story')courseStoryNext.innerHTML=`<div class="card"><button class="btn" onclick="continueCourse()">Continue to Vocabulary →</button></div>`;if(s==='vocab')courseCardNext.innerHTML=`<div class="card"><button class="btn" onclick="continueCourse()">Continue to Listening →</button></div>`;if(s==='listen')courseListenNext.innerHTML=`<div class="card"><button class="btn" onclick="continueCourse()">Continue to Movie Mode →</button></div>`;if(s==='movie')courseListenNext.innerHTML=`<div class="card"><button class="btn" onclick="continueCourse()">Finish Day ${d} ✓</button></div>`}
-function continueCourse(){let d=activeCourseDay,s=activeCourseStep;state.course[courseKey(d,s)]=true;save();if(s==='story'){startCourseStep(d,'vocab');return}if(s==='vocab'){startCourseStep(d,'listen');return}if(s==='listen'){startCourseStep(d,'movie');return}activeCourseFlow=false;show('courseDay');renderCourseDay(d)}
+function renderCourseDay(day){let c=DATA.course20[day-1],p=courseProgress(day);courseDayHead.innerHTML=`<div class="hero"><div>DAY ${day} OF 20</div><h2>${c.title}</h2><p>${c.desc}</p><p>${p.done?'✓ Day Complete':`${p.n}/${p.total} steps completed`}</p></div>`;let rows=[['story','📖 Story Prep','Story context before listening'],['vocab','🃏 Vocabulary','12 words for today'],...c.listenLabels.map((x,i)=>[`listen${i+1}`,`🎧 Listening ${i+1} — ${x}`,`A different ${x} exercise`])];courseSteps.innerHTML=rows.map(([k,t,d])=>`<div class="card"><h3>${isCourseDone(day,k)?'✓ ':''}${t}</h3><p class="sub">${d}</p><button class="btn" onclick="startCourseStep(${day},'${k}')">${isCourseDone(day,k)?'Review':'Start'}</button></div>`).join('')}
+function getBankItem(id){return DATA.listeningBank120.find(x=>x.id===id)}
+function startCourseStep(day,step){activeCourseDay=day;activeCourseStep=step;activeCourseFlow=true;let c=DATA.course20[day-1];if(step==='story'){show('story');renderStory();renderCourseCTA();return}if(step==='vocab'){cardSet=c.words.map(w=>DATA.vocab.find(v=>v.w===w)).filter(Boolean);cardI=0;show('cards');renderCard();renderCourseCTA();return}let ix=parseInt(step.replace('listen',''))-1;sceneSet=[getBankItem(c.listenIds[ix])];sceneI=0;speedOverride=null;show('listenScene');renderScene();renderCourseCTA();setTimeout(playScene,250)}
+function renderCourseCTA(){if(window.courseStoryNext)courseStoryNext.innerHTML='';if(window.courseCardNext)courseCardNext.innerHTML='';if(window.courseListenNext)courseListenNext.innerHTML='';if(!activeCourseFlow)return;let d=activeCourseDay,s=activeCourseStep,steps=courseSteps(d),i=steps.indexOf(s),next=steps[i+1];let label=next==='vocab'?'Vocabulary':next&&next.startsWith('listen')?`Listening ${next.replace('listen','')} — ${DATA.course20[d-1].listenLabels[parseInt(next.replace('listen',''))-1]}`:null;let html=`<div class="card"><button class="btn" onclick="continueCourse()">${next?`Continue to ${label} →`:`Finish Day ${d} ✓`}</button></div>`;if(s==='story')courseStoryNext.innerHTML=html;else if(s==='vocab')courseCardNext.innerHTML=html;else courseListenNext.innerHTML=html}
+function continueCourse(){let d=activeCourseDay,s=activeCourseStep,steps=courseSteps(d),i=steps.indexOf(s);state.course[courseKey(d,s)]=true;save();if(i<steps.length-1){startCourseStep(d,steps[i+1]);return}activeCourseFlow=false;show('courseDay');renderCourseDay(d)}
 let movie=new Date(2026,7,29),now=new Date(),left=Math.max(0,Math.ceil((movie-now)/86400000));countdown.textContent=`🎬 ${left} days until Aug 29 · Today's suggested training: ~${plan(dayNum()).mins} min`;
 renderStory();renderLevels();renderStats();
 if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js'));
