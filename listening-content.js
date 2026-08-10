@@ -1,4 +1,4 @@
-// Story-specific replacements for the templated Dialogue, inference, and Fast Scene exercises.
+// Story-specific replacements for templated listening exercises.
 const LISTENING_CONTENT = [
 {story:'Journey Begins',dialogue:'A sailor asks, “The war is over, so why do you still look worried?” Odysseus answers, “Because winning at Troy did not bring us home.”',dq:'Why is Odysseus still worried?',da:'The crew still faces the voyage home',dw:['He wants to return to the war','He has forgotten where Troy is'],quote:'“Victory ended the war, but it did not end our journey.”',iq:'What contrast is Odysseus making?',ia:'Winning the war and reaching home are different achievements',iw:['The journey was easier than the war','Troy has become his new home'],extra:'Dark clouds gather ahead while Ithaca remains far beyond the horizon.',fq:'What new concern appears after the crew leaves Troy?',fa:'Bad weather may threaten the voyage',fw:['The war is beginning again','Ithaca is already in sight']},
 {story:'Lotus-Eaters',dialogue:'A sailor says, “They are calm. Why force them back?” Odysseus replies, “Because the lotus has made them forget the people waiting at home.”',dq:'Why does Odysseus force the sailors back?',da:'The lotus has made them forget home',dw:['The islanders refuse to feed them','The ship is carrying too many people'],quote:'“A peaceful feeling can still be dangerous when it erases your purpose.”',iq:'What danger does Odysseus describe?',ia:'Comfort can make someone abandon an important goal',iw:['Peace always leads to violence','A clear memory prevents people from resting'],extra:'The affected sailors resist rescue and beg to remain on the island.',fq:'How do the affected sailors respond to Odysseus?',fa:'They resist leaving the island',fw:['They warn him about a storm','They immediately return to the ship']},
@@ -30,4 +30,32 @@ LISTENING_CONTENT.forEach(c=>{
   if(dialogue)Object.assign(dialogue,{text:`${c.dialogue} ${storyItem.text}`,q:c.dq,a:c.da,opts:[c.da,...c.dw]});
   if(inference)Object.assign(inference,{text:c.quote,q:c.iq,a:c.ia,opts:[c.ia,...c.iw]});
   if(fast)Object.assign(fast,{text:`${storyItem.text} ${c.extra}`,q:c.fq,a:c.fa,opts:[c.fa,...c.fw]});
+});
+
+const MISSING_WORD_CONTENT = [
+['Journey Begins','After the war, Odysseus begins the long voyage home.','After the war, Odysseus begins the long voyage ____.','home',['alone','east']],
+['Lotus-Eaters','The lotus causes several sailors to forget.','The lotus causes several sailors to ____.','forget',['escape','fight']],
+['Cyclops','Polyphemus traps the Greek sailors inside his cave.','Polyphemus traps the Greek sailors inside his ____.','cave',['palace','ship']],
+['Nobody','Odysseus tells the Cyclops that his name is Nobody.','Odysseus tells the Cyclops that his name is ____.','Nobody',['Poseidon','Ithaca']],
+["Poseidon's Anger",'Odysseus creates new danger when he reveals his name.','Odysseus creates new danger when he reveals his ____.','name',['plan','weapon']],
+['Aeolus','Opening the bag releases all the dangerous winds.','Opening the bag releases all the dangerous ____.','winds',['gifts','voices']],
+['Circe','Circe uses magic to transform the sailors into pigs.','Circe uses magic to transform the sailors into ____.','pigs',['birds','stones']],
+['Underworld','Tiresias gives Odysseus an important warning.','Tiresias gives Odysseus an important ____.','warning',['reward','invitation']],
+['Sirens','The crew ties Odysseus securely to the mast.','The crew ties Odysseus securely to the ____.','mast',['anchor','rudder']],
+['Scylla','Charybdis could swallow the entire ship.','Charybdis could swallow the entire ____.','ship',['island','monster']],
+['Sacred Cattle','The starving sailors ignore the command and kill the cattle.','The starving sailors ignore the command and kill the ____.','cattle',['Sirens','suitors']],
+['Calypso','Even with Calypso, Odysseus still longs for Ithaca.','Even with Calypso, Odysseus still longs for ____.','Ithaca',['Troy','Ogygia']],
+['Nausicaa','Odysseus approaches Nausicaa carefully and asks for help.','Odysseus approaches Nausicaa carefully and asks for ____.','help',['gold','revenge']],
+['Phaeacians','Odysseus tells the Phaeacians the story of his journey.','Odysseus tells the Phaeacians the story of his ____.','journey',['victory','kingdom']],
+['Return to Ithaca','Athena disguises the returning king as a beggar.','Athena disguises the returning king as a ____.','beggar',['sailor','priest']],
+['Telemachus','The young man finally recognizes Odysseus as his father.','The young man finally recognizes Odysseus as his ____.','father',['enemy','servant']],
+['Eumaeus','Eumaeus offers food and shelter to the unknown stranger.','Eumaeus offers food and shelter to the unknown ____.','stranger',['suitor','prophet']],
+['Penelope','Penelope refuses to trust the rumor without proof.','Penelope refuses to trust the rumor without ____.','proof',['permission','treasure']],
+['The Bow','Only Odysseus can easily string the great bow.','Only Odysseus can easily string the great ____.','bow',['spear','net']],
+['The Bed','The marriage bed was built around a living olive tree.','The marriage bed was built around a living olive ____.','tree',['door','statue']]
+];
+
+MISSING_WORD_CONTENT.forEach(([story,text,q,a,wrong])=>{
+  const item=DATA.listeningBank120.find(x=>x.story===story&&x.activity==='Missing Word');
+  if(item)Object.assign(item,{text,q,a,opts:[a,...wrong]});
 });
