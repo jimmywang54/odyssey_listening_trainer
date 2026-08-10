@@ -85,7 +85,7 @@
 <p class="sub">A guided movie-prep course: Quick Prep → Vocabulary → Listening. All days are unlocked.</p>
 <div id="courseOverall" class="card"></div><div id="todayChallenge"></div><div class="section">ALL 20 DAYS</div><div id="days"></div></section>
 <section id="courseDay" class="screen"><div id="courseDayHead"></div><div id="courseSteps"></div></section>
-</main><script src="data.js"></script><script src="listening-content.js"></script><script src="course-plan.js"></script><script src="quick-prep.js"></script><script>
+</main><script src="data.js?v=15"></script><script src="listening-content.js?v=15"></script><script src="course-plan.js?v=15"></script><script src="quick-prep.js?v=15"></script><script>
 let historyStack=[],lang='zh',cardI=0,cardSet=[],quizWord=null,quizSet=[],quizI=0,sceneSet=[],sceneI=0,speedOverride=null,selectedVocabLevel='Essential Odyssey',selectedVocabMode='cards',selectedVocabBatchIndex=0;
 let activeCourseDay=null,activeCourseStep=null,activeCourseFlow=false;
 let state=JSON.parse(localStorage.getItem('odyState')||'{"known":[],"weak":[],"doneListen":[]}');if(!state.review)state.review=[...(state.weak||[])];if(!state.course)state.course={};if(!state.listenReview)state.listenReview=[];if(!state.vocabSetDone)state.vocabSetDone=[];
@@ -230,5 +230,5 @@ function renderCourseCTA(){if(window.courseStoryNext)courseStoryNext.innerHTML='
 function continueCourse(){let d=activeCourseDay,s=activeCourseStep,steps=getCourseSteps(d),i=steps.indexOf(s);state.course[courseKey(d,s)]=true;save();if(i<steps.length-1){startCourseStep(d,steps[i+1]);return}activeCourseFlow=false;show('courseDay');renderCourseDay(d)}
 let movie=new Date(2026,7,29),now=new Date(),left=Math.max(0,Math.ceil((movie-now)/86400000));countdown.textContent=`🎬 ${left} days until Aug 29 · Today's suggested training: ~${plan(dayNum()).mins} min`;
 renderStory();renderLevels();renderStats();
-if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js'));
+if('serviceWorker'in navigator){let refreshing=false;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!refreshing){refreshing=true;location.reload()}});window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').then(reg=>reg.update()))}
 </script></body></html>
